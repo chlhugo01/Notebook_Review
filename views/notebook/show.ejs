@@ -1,0 +1,68 @@
+<%- include("../partials/header") %>
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10 text-center">
+            <div>
+                <h1><%= notebook.topic %> </h1>
+            </div>
+        </div>
+        <div class="col-md-4 text-left">
+            <div>
+                <h5>Long story short</h5>
+                <p class=""><%= notebook.introduction %></p>
+                <p class="">Start at $<%= notebook.price %></p>
+                <span class="fa fa-star checked"></span>
+            <span class="fa fa-star <% if (notebook.rating > 1.5) { %> checked <% } %>"></span>
+            <span class="fa fa-star <% if (notebook.rating > 2.5) { %> checked <% } %>"></span>
+            <span class="fa fa-star <% if (notebook.rating > 3.5) { %> checked <% } %>"></span>
+            <span class="fa fa-star <% if (notebook.rating > 4.5) { %> checked <% } %>"></span>
+            <span class="pull-right"><%= moment(notebook.createdAt).calendar() %></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <img class="img-fluid" src="data:image/<%=notebook.img.contentType%>;base64, 
+                <%=notebook.img.data.toString('base64')%>">
+            </div>
+        </div>
+        <div class="col-md-10">
+            <p><%= notebook.description %> </p>
+            <div class="border border-primary ">
+                <div class="d-flex inline">
+                    <% if(currentUser && notebook.author.id.equals(currentUser._id)){ %>
+                    <a class="btn btn-success" href="/notebook/<%= notebook._id%>/edit "> Edit</a>
+                    <form action="/notebook/<%= notebook._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                    <% } %>
+                    <a class="btn btn-success " href="/notebook/<%= notebook._id%>/comments/new "> Add
+                        Comment</a>
+                </div>
+                <hr>
+                <div>
+                    <% notebook.comments.forEach(function(comments){ %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <%= comments.author.username %>
+                            <span class="pull-right"><%= moment(comments.createdAt).fromNow() %></span>
+                            <p><%= comments.text%></p>
+                            <div class="d-flex inline">
+                                <% if(currentUser && comments.author.id.equals(currentUser._id)){ %>
+                                <a class="btn btn-warning"
+                                    href="/notebook/<%=notebook._id %>/comments/<%=comments._id%>/edit">Edit</a>
+                                <form
+                                    action="/notebook/<%= notebook._id%>/comments/<%= comments._id%>?_method=DELETE"
+                                    method="POST">
+                                    <input type="submit" class="btn btn-danger" value="Delete">
+                                </form>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include("../partials/footer") %>

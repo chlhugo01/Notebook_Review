@@ -1,0 +1,34 @@
+<%- include("../partials/header") %>
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <h1>Welcome to NotebookReview!</h1>
+            <% if(currentUser && currentUser.adminCode === true){ %>
+                <a href="/notebook/new" type="button" class="btn btn-outline-primary">add new one</a>
+            <% } %>
+        </div>
+    </header>
+
+    <div class="row">
+        <% notebook.slice().reverse().forEach(function(notebook){ %>
+        <div class="col-9">
+            <h4><%= notebook.topic %></h4>
+            <p><%= notebook.introduction %></p>
+            <a href="/notebook/<%= notebook._id%>" class="btn btn-primary">More Info</a>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star <% if (notebook.rating > 1.5) { %> checked <% } %>"></span>
+            <span class="fa fa-star <% if (notebook.rating > 2.5) { %> checked <% } %>"></span>
+            <span class="fa fa-star <% if (notebook.rating > 3.5) { %> checked <% } %>"></span>
+            <span class="fa fa-star <% if (notebook.rating > 4.5) { %> checked <% } %>"></span>
+            <span class="pull-right"><%= moment(notebook.createdAt).fromNow() %></span>
+        </div>
+        <div class="col-3">
+            <img src="data:image/<%=notebook.img.contentType%>;base64, 
+            <%=notebook.img.data.toString('base64')%>" class="img-fluid" style="height:150px;width:250px;">
+        </div>
+        <hr>
+        <% }); %>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>
