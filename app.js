@@ -18,7 +18,7 @@ const port = 3000;
 const commentRoutes = require("./routes/comments"), notebookRoutes = require("./routes/notebook"), indexRoutes = require("./routes/index")
 
 mongoose.set('useUnifiedTopology', true);
-mongoose.connect("mongodb+srv://chlhugo:Clch2811@cluster1.tmjkh.mongodb.net/testing1?retryWrites=true&w=majority", { useNewUrlParser: true, useCreateIndex: true }).then(() =>{
+mongoose.connect("mongodb+srv://account_name+account_password@cluster1.tmjkh.mongodb.net/testing1?retryWrites=true&w=majority", { useNewUrlParser: true, useCreateIndex: true }).then(() =>{
     console.log("connected to db!!");
 }).catch(err =>{
     console.log("err",err.message);
